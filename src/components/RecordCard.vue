@@ -1,10 +1,12 @@
 <template>
 
   <div id="record_card">
+
     <img :src="recordInfos.poster" alt="">
     <h1>{{ recordInfos.title }}</h1>
     <span id="author_name">{{ recordInfos.author }}</span>
     <span>{{ recordInfos.year }}</span>
+
   </div>
 
 </template>
@@ -52,6 +54,4 @@ export default {
     margin-top: 10px;
   }
 }
-
-
 </style>

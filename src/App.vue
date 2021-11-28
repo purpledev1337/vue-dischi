@@ -1,4 +1,5 @@
 <template>
+
   <div id="app">
 
     <header>
@@ -10,6 +11,7 @@
     </main>
 
   </div>
+  
 </template>
 
 <script>
@@ -34,17 +36,15 @@ export default {
 #app {
   background-color: rgb(30,45,59);
   min-width: 720px;
-}
 
-header {
-  height: 70px;
-  background-color: rgb(46,58,70);
+  header {
+    height: 70px;
+    background-color: rgb(46,58,70);
 
-  img {
-    height: 40px;
-    margin: 15px 20px;
+    img {
+      height: 40px;
+      margin: 15px 20px;
+    }
   }
 }
-
-
 </style>

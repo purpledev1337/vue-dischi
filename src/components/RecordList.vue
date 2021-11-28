@@ -1,12 +1,21 @@
 <template>
-<div id="record_list_container">
-    <RecordCard
-    v-for="record, i in recordList"
-    :key="i"
-    :recordInfos="record"
-    />
-</div>
 
+  <div id="record_list_container">
+
+    <div id="record_card_container"
+      v-if="recordList.length === recordListLength"
+      >
+
+        <RecordCard
+        v-for="record, i in recordList"
+        :key="i"
+        :recordInfos="record"
+        />
+    </div>
+
+    <div id="loading_screen" v-else></div>
+
+  </div>
 
 </template>
 
@@ -22,20 +31,21 @@ export default {
   data() {
     return {
       apiUrl: "https://flynn.boolean.careers/exercises/api/array/music",
-      recordList: []
+      recordList: [],
+      recordListLength : null
     }
   },
   created () {
-    this.getRecords();
+    setTimeout(() => this.getRecords(), 1000);
   },
   methods: {
       getRecords() {
         axios
         .get(this.apiUrl)
         .then((foundList) => {
-          this.recordList = foundList.data.response
-          console.log(foundList.data.response);
-        })
+          this.recordList = foundList.data.response;
+          this.recordListLength = foundList.data.response.length;
+          console.log(foundList.data.response.length)})
       }
   }
 }
@@ -46,9 +56,30 @@ export default {
 #record_list_container {
   width: 65%;
   min-width: 400px;
+  height: calc(100% - 70px);
+  min-height: calc(100vh - 70px);
   margin: auto;
-  display: flex;
-  flex-wrap: wrap;
-  padding: 60px 0;
+
+  #record_card_container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 60px 0;
+  }
+
+  #loading_screen {
+    width: 300px;
+    height: 300px;
+    margin: 20% auto;
+    border-radius: 50%;
+    border-top: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 50px solid transparent;
+    border-left: 50px solid rgb(46,58,70);
+    animation: spin 350ms linear infinite;
+  }
+
+  @keyframes spin {
+    100% { transform: rotate(360deg); }
+  }
 }
 </style>
