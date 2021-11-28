@@ -1,6 +1,6 @@
 <template>
-<div>
-    <RecordInfo
+<div id="record_list_container">
+    <RecordCard
     v-for="record, i in recordList"
     :key="i"
     :recordInfos="record"
@@ -12,12 +12,12 @@
 
 <script>
 import axios from "axios";
-import RecordInfo from './RecordInfo.vue'
+import RecordCard from './RecordCard.vue'
 
 export default {
   name: 'RecordList',
   components: {
-    RecordInfo
+    RecordCard
   },
   data() {
     return {
@@ -43,7 +43,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-
-
-
+#record_list_container {
+  width: 65%;
+  min-width: 400px;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 60px 0;
+}
 </style>
