@@ -2,14 +2,14 @@
 
   <div id="record_list_container">
 
-    <nav>
+    <!-- <nav> -->
       <!-- sending the genre list array to the child -->
       <!-- + filter selection function -->
-      <FilterMenu
+      <!-- <FilterMenu
       :recordGenres="recordGenreList"
       @filter="selectFilter"
-      />
-    </nav>
+      /> -->
+    <!-- </nav> -->
 
     <div id="record_card_container"
       v-if="recordList.length === recordListLength"
@@ -32,22 +32,22 @@
 <script>
 import axios from "axios";
 import RecordCard from './RecordCard.vue'
-import FilterMenu from './FilterMenu.vue'
 
 
 export default {
   name: 'RecordList',
   components: {
-    RecordCard,
-    FilterMenu
+    RecordCard
+  },
+  props: {
+    filter: String
   },
   data() {
     return {
       apiUrl: "https://flynn.boolean.careers/exercises/api/array/music",
       recordList: [],
       recordListLength : null,
-      recordGenreList : [],
-      selectedFilter: null
+      recordGenreList: []
     }
   },
   created () {
@@ -57,11 +57,12 @@ export default {
   computed: {
     // computed variable to maintain original array data
     filteredRecordList() {
-      if (this.selectedFilter === null) {
+      if (this.filter === null) {
+        console.log(this.filter);
         return this.recordList
       }
       return this.recordList.filter((element) => {
-        return element.genre.includes(this.selectedFilter)
+        return element.genre.includes(this.filter)
       })
 
     }
@@ -73,7 +74,6 @@ export default {
         .then((foundList) => {
           this.recordList = foundList.data.response;
           this.recordListLength = foundList.data.response.length;
-          console.log(foundList.data.response.length);
           // for loop to generate genre list automatically after api call
           for (let i = 0; i < foundList.data.response.length; i++ ){
             if (!this.recordGenreList.includes(foundList.data.response[i].genre)) {
@@ -84,15 +84,19 @@ export default {
           })
       },
       // value received from child will be the key number of the genre list 
-      selectFilter(filteredGenre) {
-        if (filteredGenre === "all") {
-          this.selectedFilter = null
-        }
-        else {
-          this.selectedFilter = this.recordGenreList[filteredGenre]
-        }
-      }
-  }
+      // selectFilter(filteredGenre) {
+      //   if (filteredGenre === "all") {
+      //     this.filter = null
+      //   }
+      //   else {
+      //     this.filter = this.recordGenreList[filteredGenre]
+      //   }
+      // }
+  },
+  mounted() {
+  // You can emit this anywhere, it doesn't have to be in mounted
+  this.$emit('genreListCreated', this.recordGenreList)
+},
 }
 </script>
 

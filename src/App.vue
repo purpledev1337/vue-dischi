@@ -4,10 +4,16 @@
 
     <header>
       <img src="./assets/logo-small.svg" alt="">
+      <FilterMenu
+      :recordGenres="recordGenreList"
+      @filterGenre="selectFilter"
+      />
     </header>
 
     <main>
-      <RecordList/>
+      <RecordList
+      :filter="genreToFilter"
+      @genreListCreated="getList"/>
     </main>
 
   </div>
@@ -17,11 +23,34 @@
 <script>
 
 import RecordList from './components/RecordList.vue'
+import FilterMenu from './components/FilterMenu.vue'
 
 export default {
   name: 'App',
   components: {
-    RecordList
+    RecordList,
+    FilterMenu
+  },
+  data() {
+    return {
+      recordGenreList: [],
+      genreToFilter: null
+    }
+  },
+  methods: {
+    getList(recordGenreList) {
+      this.recordGenreList = recordGenreList
+      console.log("lista presa dal figlio",this.recordGenreList);
+    },
+    selectFilter(genreToFilter) {
+      if (genreToFilter === "all") {
+        this.genreToFilter = null
+      }
+      else {
+        this.genreToFilter = genreToFilter
+        console.log(this.genreToFilter);
+      }
+    }
   }
 }
 </script>
@@ -40,6 +69,9 @@ export default {
   header {
     height: 70px;
     background-color: rgb(46,58,70);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     img {
       height: 40px;

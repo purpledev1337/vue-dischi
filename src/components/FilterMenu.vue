@@ -1,23 +1,20 @@
 <template>
 
     <!-- send to the parent the selected option value -->
-    <select @change="$emit('filter', selected)"
+    <select @change="$emit('filterGenre', selected)"
         v-model="selected"
         name="type_list">
-            <option
-            disabled
-            value="">
-                Select music genre
+            <option disabled value="Select music genre">
+            Select music genre
             </option>
-            <option
-            value="all">
+            <option selected value="all">
                 All genres
             </option>
             <!-- printing of all genres found -->
             <option
             v-for="genre, i in recordGenres"
             :key="i"
-            :value="i">
+            :value="genre">
                 {{ genre }}
             </option>
 
@@ -34,7 +31,7 @@ export default {
   },
   data() {
       return {
-          selected: null
+          selected: "Select music genre"
       }
   }
 }
@@ -45,6 +42,8 @@ export default {
 
 select {
     width: 200px;
+    height: 30px;
+    margin-right: 150px;
     transform: scale(1.5);
 }
 
