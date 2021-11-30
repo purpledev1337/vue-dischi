@@ -2,15 +2,6 @@
 
   <div id="record_list_container">
 
-    <!-- <nav> -->
-      <!-- sending the genre list array to the child -->
-      <!-- + filter selection function -->
-      <!-- <FilterMenu
-      :recordGenres="recordGenreList"
-      @filter="selectFilter"
-      /> -->
-    <!-- </nav> -->
-
     <div id="record_card_container"
       v-if="recordList.length === recordListLength"
       >
@@ -57,8 +48,7 @@ export default {
   computed: {
     // computed variable to maintain original array data
     filteredRecordList() {
-      if (this.filter === null) {
-        console.log(this.filter);
+      if (this.filter === "all") {
         return this.recordList
       }
       return this.recordList.filter((element) => {
@@ -68,33 +58,22 @@ export default {
     }
   },
   methods: {
-      getRecords() {
-        axios
-        .get(this.apiUrl)
-        .then((foundList) => {
-          this.recordList = foundList.data.response;
-          this.recordListLength = foundList.data.response.length;
-          // for loop to generate genre list automatically after api call
-          for (let i = 0; i < foundList.data.response.length; i++ ){
-            if (!this.recordGenreList.includes(foundList.data.response[i].genre)) {
-              this.recordGenreList.push(foundList.data.response[i].genre)
-            }
+    getRecords() {
+      axios
+      .get(this.apiUrl)
+      .then((foundList) => {
+        this.recordList = foundList.data.response;
+        this.recordListLength = foundList.data.response.length;
+        // for loop to generate genre list automatically after api call
+        for (let i = 0; i < foundList.data.response.length; i++ ){
+          if (!this.recordGenreList.includes(foundList.data.response[i].genre)) {
+            this.recordGenreList.push(foundList.data.response[i].genre)
           }
-          console.log(this.recordGenreList);
-          })
-      },
-      // value received from child will be the key number of the genre list 
-      // selectFilter(filteredGenre) {
-      //   if (filteredGenre === "all") {
-      //     this.filter = null
-      //   }
-      //   else {
-      //     this.filter = this.recordGenreList[filteredGenre]
-      //   }
-      // }
+        }
+      })
+    },
   },
   mounted() {
-  // You can emit this anywhere, it doesn't have to be in mounted
   this.$emit('genreListCreated', this.recordGenreList)
 },
 }

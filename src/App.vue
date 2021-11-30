@@ -34,22 +34,15 @@ export default {
   data() {
     return {
       recordGenreList: [],
-      genreToFilter: null
+      genreToFilter: "all"
     }
   },
   methods: {
     getList(recordGenreList) {
       this.recordGenreList = recordGenreList
-      console.log("lista presa dal figlio",this.recordGenreList);
     },
     selectFilter(genreToFilter) {
-      if (genreToFilter === "all") {
-        this.genreToFilter = null
-      }
-      else {
         this.genreToFilter = genreToFilter
-        console.log(this.genreToFilter);
-      }
     }
   }
 }
